@@ -26,7 +26,7 @@ const toDayTime = (timestamp) => {
 
 const exportAuthHash = (data) => {
   const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-    JSON.stringify(data)
+    JSON.stringify(data, null, 2)
   )}`;
   const link = document.createElement("a");
   link.href = jsonString;
@@ -35,6 +35,17 @@ const exportAuthHash = (data) => {
   link.click();
 };
 
+const exportAuthData = (data) => {
+  const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+    JSON.stringify(data, null, 2)
+  )}`;
+  const link = document.createElement("a");
+  link.href = jsonString;
+  link.download = "authentication_data.json";
+
+  link.click();
+};
+
 module.exports = {
-  toDayTime, exportAuthHash
+  toDayTime, exportAuthHash, exportAuthData
 }
