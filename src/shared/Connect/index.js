@@ -11,8 +11,9 @@ import { fetchData } from '../utils/database';
 
 const Connect = () => {
   const theme = useTheme()
-  const {updateConnect, connect, updateAddress, address, updateWeb3, web3, updateUserInfo} = useContext(GlobalContext)
+  const {updateConnect, connect, updateAddress, address, updateWeb3, web3} = useContext(GlobalContext)
   const [open, setOpen] = useState(false)
+  const [userInfo, setUserInfo] = useState({"credit_score": "?", "timestamp": "?"})
   const [openUserInfo, setOpenUserInfo] = useState(false)
   
 
@@ -31,7 +32,7 @@ const Connect = () => {
             .then(data => {
               console.log(data)
               if(data !== null) {
-                updateUserInfo({
+                setUserInfo({
                   "credit_score": data.credit_score,
                   "timestamp": data.timestamp
                 })
@@ -70,9 +71,8 @@ const Connect = () => {
         updateAddress(account)
         fetchData({public_key: account}, SERVER + "centic/user/registerInfo")
             .then(data => {
-              console.log(data)
               if(data !== null) {
-                updateUserInfo({
+                setUserInfo({
                   "credit_score": data.credit_score,
                   "timestamp": data.timestamp
                 })
@@ -106,7 +106,8 @@ const Connect = () => {
           <Typography sx={{
             fontSize: "16px",
             fontWeight: "500",
-            marginRight: "10px"}}
+            marginRight: "10px",
+            fontWeight: 600}}
           >
               {address.slice(0, 6) + "..." + address.slice(36, 42)}
           </Typography>

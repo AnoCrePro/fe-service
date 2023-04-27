@@ -7,7 +7,6 @@ import Connect from '../../shared/Connect';
 
 const Header = () => {
   const location = useLocation()
-  console.log(location)
   const theme = useTheme()
   
   return (
@@ -48,7 +47,7 @@ const Header = () => {
               fontSize: "20px"}}>
                 Credit Proof
           </Typography>
-          <Box sx={location.pathname === "/proof" ? {height: "3px", backgroundColor: "white", width: "100%", marginTop: "5px", borderRadius: "10px"} : ""}></Box>
+          <Box sx={location.pathname === "/proof" || location.pathname.split("/")[1] === "generate" ? {height: "3px", backgroundColor: "white", width: "100%", marginTop: "5px", borderRadius: "10px"} : ""}></Box>
         </Link>
       </Box>
       <Connect/>

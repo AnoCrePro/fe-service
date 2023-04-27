@@ -4,10 +4,6 @@ import AppReducer from "./AppReducer";
 // initial state
 const initialState = {
   address: null,
-  userInfo: {
-    "credit_score": "?",
-    "timestamp": "?"
-  },
   connect: false,
   web3: null,
   refresh: false,
@@ -35,9 +31,6 @@ export const GlobalProvider = (props) => {
     dispatch({ type: "UPDATE_REFRESH", refresh: _refresh})
   }
 
-  const updateUserInfo = (_userInfo) => {
-    dispatch({ type: "UPDATE_USER_INFO", userInfo: _userInfo})
-  }
 
   return (
     <GlobalContext.Provider
@@ -46,12 +39,10 @@ export const GlobalProvider = (props) => {
         connect: state.connect,
         web3: state.web3,
         refresh: state.refresh,
-        userInfo: state.userInfo,
         updateWeb3,
         updateConnect,
         updateAddress,
         updateRefresh,
-        updateUserInfo
       }}
     >
       {props.children}
