@@ -153,7 +153,7 @@ const WebDialog = ({open, handleClose}) => {
           }}
         >
           <Typography variant="h4" sx={{fontSize: "15px", fontWeight: 500}} mb={2}>
-            Please enter the condition of the Proof
+            Please enter the information to calculate authentication hash
           </Typography>
         </Box>
         <Box sx={{width: "90%", margin: "0 auto"}}>
