@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { TextField, InputAdornment, Typography, MenuItem } from "@mui/material";
 
-export default function NumberInput({ value, setValue, unitText, disabled }) {
+export default function NumberInput({ value, setValue, unitText, label, disabled }) {
   // const [inputValue, setInputValue] = useState(value)
   const handleInputChange = (ev) => {
     const regex = /^(?!-0(\.0+)?$)-?(0|[1-9]\d*)(\.\d+)?$/;
@@ -15,15 +15,15 @@ export default function NumberInput({ value, setValue, unitText, disabled }) {
   return (
     <TextField
       sx={{
-        width: "90%",
-        margin: "0 auto",
+        width: "100%",
+        marginTop: "15px"
         // boxShadow: "inset 0px 1px 2px 0px rgba(0, 0, 0, 0.3);",
         // borderRadius: "15px",
-        padding: "0 5%"
       }}
       type="text"
       value={value}
       onChange={handleInputChange}
+      label={label}
       InputProps={{
         endAdornment: (
           <InputAdornment position='end'>

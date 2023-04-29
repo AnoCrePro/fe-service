@@ -9,21 +9,27 @@ import { GlobalContext } from '../../context/GlobalState';
 import { fetchData } from '../../shared/utils/database';
 import { SERVER } from '../../shared/Constants/constants';
 import { exportAuthData } from '../../shared/utils/others';
+import GenDialog from './GenDialog';
 
 const GenerateProof = ({method}) => {
   const { address } = useContext(GlobalContext)
   const theme = useTheme()
   const [open, setOpen] = useState(false)
+  const [openGen, setOpenGen] = useState(false)
 
   const handleOpenWebDialog = () => {
     setOpen(true)
   }
+  const handleOpenGenDialog = () => {
+    setOpenGen(true)
+  }
 
   const handleDownloadData = async () => {
     try {
-      await fetchData({public_key: address}, SERVER + "centic/user/info")
+      await fetchData({public_key: address.toLowerCase()}, SERVER + "centic/user/info")
         .then(data => {
           exportAuthData(data)
+          console.log(data)
         })
     } catch (err) {
       alert("Please provide authentication hash first!")
@@ -155,9 +161,11 @@ const GenerateProof = ({method}) => {
                         cursor: "pointer"
                       }
                     }}
+                    onClick={handleOpenGenDialog}
                   >
                     Choose
                   </Button> 
+                  <GenDialog open={openGen} handleClose={() => setOpenGen(false)}/>
               </Grid>
             </Grid>
           </Box>
