@@ -5,18 +5,19 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { GlobalProvider } from "./context/GlobalState";
 import Scoring from "./components/Scoring";
-import Proof from "./components/Proof";
-import GenerateProof from "./components/GenerateProof";
+// import Proof from "./components/Proof";
+// import GenerateProof from "./components/GenerateProof";
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Open Sans"
+    fontFamily: "Open Sans",
+    color: "#E2EDFF"
   },
   colors: {
     "light1": "white",
     "light2": "#e6f2ff",
     "dark1": "#004d99",
-    "dark2": "#003366",
+    "dark2": "#030B10",
   }
 })
 
@@ -34,13 +35,14 @@ function Main() {
         <Box className="App" sx={{backgroundColor: theme.colors.dark2, minHeight: "100vh"}}>
           <BrowserRouter>
             <Header/>
-            <Routes>
+            <Scoring/>
+            {/* <Routes>
               <Route path="/" element={<Box>Main</Box>}/>
               <Route path="/scoring" element={<Scoring/>}/>
               <Route path="/proof" element={<Proof/>}/>
               <Route path="/generate/web" element={<GenerateProof method="web"/>}/>
               <Route path="/generate/extension" element={<GenerateProof method="extension"/>}/>
-            </Routes>
+            </Routes> */}
           </BrowserRouter>
         </Box>
       </ThemeProvider>

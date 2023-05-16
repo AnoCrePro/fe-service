@@ -1,8 +1,12 @@
 
 body {
-  background-color: #003366;
+  background-color: #3396FF;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.header-logo {
+  height: 40px
 }

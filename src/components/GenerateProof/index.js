@@ -150,9 +150,9 @@ const GenerateProof = ({method}) => {
               </Button> 
               <WebDialog open={open} handleClose={() => setOpen(false)}/>
           </Box>
-          <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", marginTop: "50px"}}>
+         <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", marginTop: "50px"}}>
             <Grid container>
-              <Grid item xs={6} sx={{padding: "50px", display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "10px"}}>
+         {method === "web" ? "": <Grid item xs={6} sx={{padding: "50px", display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "10px"}}>
                 <Typography variant="body2"
                   sx={{ fontFamily: theme.typography, fontSize: "20px", fontWeight: "700"}}
                   mb={1}>
@@ -182,8 +182,8 @@ const GenerateProof = ({method}) => {
                   >
                     Download
                   </Button> 
-              </Grid>
-              <Grid item xs={6}>
+              </Grid>}
+              <Grid item xs={method === "web" ? 12 : 6}>
                 {method === "web" ? 
                 <Box sx={{padding: "50px", display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "10px"}}>
                   <Typography variant="body2"

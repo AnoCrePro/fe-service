@@ -27,16 +27,13 @@ const WebDialog = ({open, handleClose}) => {
   const theme = useTheme()
   const { address } = useContext(GlobalContext)
   const [loading, setLoading] = useState(false);
-  const [mainPub, setMainPub] = useState("")
   const [absPub, setAbsPub] = useState("")
   const [pass, setPass] = useState("")
   const [authHash, setAuthHash] = useState("")
   const [copied, setCopied] = useState(false)
   const [openDone, setOpenDone] = useState(false)
 
-  const handleChangeMainPub = (e) => {
-    setMainPub(e.target.value)
-  }
+  console.log(address)
 
   const handleChangeAbsPub = (e) => {
     setAbsPub(e.target.value)
@@ -51,7 +48,7 @@ const WebDialog = ({open, handleClose}) => {
   }
 
   const genAuthHash = async () => {
-    let hash = mimc7.multiHash([BigInt(mainPub.replace("0x", ""), 16).value, BigInt(absPub.replace("0x", ""), 16).value, BigInt(pass, 10).value]).toString()
+    let hash = mimc7.multiHash([BigInt(address.replace("0x", ""), 16).value, BigInt(absPub.replace("0x", ""), 16).value, BigInt(pass, 10).value]).toString()
     console.log(hash)
     setAuthHash(hash)
     // exportAuthHash({"authentication_hash": hash})
@@ -71,7 +68,6 @@ const WebDialog = ({open, handleClose}) => {
   }
 
   const handleCloseDialog = () => {
-    setMainPub("")
     setAbsPub("")
     setPass("")
     setAuthHash("")
@@ -157,7 +153,6 @@ const WebDialog = ({open, handleClose}) => {
           </Typography>
         </Box>
         <Box sx={{width: "90%", margin: "0 auto"}}>
-          <TextField sx={{fontFamily: theme.typography, width: "100%", marginTop: "15px"}} value={mainPub} onChange={handleChangeMainPub} label="Main Account" variant="outlined" />
           <TextField sx={{fontFamily: theme.typography, width: "100%", marginTop: "15px"}} value={absPub} onChange={handleChangeAbsPub} label="Abstract Account" variant="outlined" />
           <TextField sx={{fontFamily: theme.typography, width: "100%", marginTop: "15px"}} value={pass} onChange={handleChangePass} label="Password" variant="outlined" />
         </Box>

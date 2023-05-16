@@ -11,18 +11,8 @@ const Header = () => {
   
   return (
     <Box sx={{fontFamily: "Open Sans", height: "60px", backgroundColor: "black", display: "flex", alignItems: "center", justifyContent: "space-between", paddingLeft: "100px", paddingRight: "100px"}}> 
-      <Typography 
-        sx={{
-          fontFamily: theme.typography,
-          color: theme.colors.light1,
-          fontWeight: 1000,
-          fontSize: "20px",
-          border: "1px solid #e6f2ff",
-          padding: "5px"
-        }}>
-          Credit Service
-      </Typography>
-      <Box sx={{display: "flex"}}>
+      <img class="header-logo" src="./Logo-Centic_copy_74x-82x.png"/>
+      {/* <Box sx={{display: "flex"}}>
         <Link to="/scoring" style={{ textDecoration: 'none'}}>
           <Typography 
             sx={{
@@ -49,7 +39,7 @@ const Header = () => {
           </Typography>
           <Box sx={location.pathname === "/proof" || location.pathname.split("/")[1] === "generate" ? {height: "3px", backgroundColor: "white", width: "100%", marginTop: "5px", borderRadius: "10px"} : ""}></Box>
         </Link>
-      </Box>
+      </Box> */}
       <Connect/>
     </Box>
   )

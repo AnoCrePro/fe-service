@@ -63,4 +63,4 @@ const toSolidityInput = (proof) => {
   return hexifyBigInts(unstringifyBigInts(result));
 }
 
-module.exports = { generateProof, toSolidityInput}
+module.exports = { generateProof, toSolidityInput }
