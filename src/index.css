@@ -1,6 +1,6 @@
 
 body {
-  background-color: #3396FF;
+  background-color: #030B10;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -9,4 +9,9 @@ body {
 
 .header-logo {
   height: 40px
+}
+
+.podium-icon {
+  height: 400px;
+  position: absolute;
 }

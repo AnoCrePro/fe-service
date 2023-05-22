@@ -11,7 +11,7 @@ const Header = () => {
   
   return (
     <Box sx={{fontFamily: "Open Sans", height: "60px", backgroundColor: "black", display: "flex", alignItems: "center", justifyContent: "space-between", paddingLeft: "100px", paddingRight: "100px"}}> 
-      <img class="header-logo" src="./Logo-Centic_copy_74x-82x.png"/>
+      <img class="header-logo" src="./Logo-Centic_74x-82x.png"/>
       {/* <Box sx={{display: "flex"}}>
         <Link to="/scoring" style={{ textDecoration: 'none'}}>
           <Typography 

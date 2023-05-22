@@ -89,7 +89,7 @@ const Connect = () => {
     }
   }
   return (
-    <Box>
+    <Box sx={{paddingTop: "5px"}}>
       {connect ? <Box sx={{
           backgroundColor: "black",
           color: theme.colors.light1,
@@ -104,14 +104,14 @@ const Connect = () => {
           alignItems: "center",
         }}> 
           <Typography sx={{
-            fontSize: "16px",
-            fontWeight: "500",
+            fontSize: "14px",
+            fontWeight: "600",
             marginRight: "10px",
-            fontWeight: 600}}
+            fontFamily: theme.typography.fontFamily}}
           >
               {address.slice(0, 6) + "..." + address.slice(36, 42)}
           </Typography>
-          <Box>
+          {/* <Box>
             <Box sx={{display: "flex", alignItems: "center"}}>
               {open ? <CloseIcon sx={{
                 "&:hover": {
@@ -136,33 +136,19 @@ const Connect = () => {
                 <Typography textAlign={"center"} variant="body2" sx={{color: "white", height: "20px", fontSize: "14px"}}>
                   My Credit Info
                 </Typography>
-                {/* <UserInfoDialog open={openUserInfo} handleClose={handleCloseUserInfo}/> */}
+                <UserInfoDialog open={openUserInfo} handleClose={handleCloseUserInfo}/>
               </Paper>  
             </Box>
-          </Box> 
+          </Box>  */}
         </Box>
       : 
       <Button
         sx={{
-          backgroundColor: "black",
-          color: theme.colors.light1,
-          borderColor: theme.colors.light1,
-          border: "1px solid #e6f2ff",
-          borderRadius: "8px",
-          textTransform: "none",
-          height: "30px",
-          width: "170px",
-          fontSize: "18px",
-          fontWeight: "700",
-          marginRight: "20px",
-          fontFamily: theme.typography,
-          "&:hover": {
-            cursor: "pointer"
-          }
+          width: "170px", backgroundColor: theme.colors.btn, borderRadius: "10px", opacity: 1, height: "35px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "14px", fontWeight: "600", textTransform: "none"
         }}
         onClick={handleConnect}
       >
-        <AccountBalanceWalletIcon sx={{marginRight: "15px"}}/> Connect Wallet
+        Connect Wallet
       </Button> } 
     </Box>
    

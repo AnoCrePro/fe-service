@@ -63,7 +63,7 @@ const GenDialog = ({open, handleClose}) => {
   };
 
   const handleProvideAuthHash = async () => {
-    let hash = mimc7.multiHash([BigInt(address.replace("0x", ""), 16).value, BigInt(subPub.replace("0x", ""), 16).value, BigInt(pass, 10).value]).toString()
+    let hash = mimc7.multiHash([BigInt(address.replace("0x", ""), 16).value, BigInt(subPub, 16).value, BigInt(pass, 10).value]).toString()
     await fetchData({auth_hash: hash, public_key: address}, SERVER + "centic/user/provideAuthHash")
       .then(data => {
           console.log(data)
