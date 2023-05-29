@@ -44,7 +44,9 @@ function Main() {
             <Header/>
             <Routes>
               <Route path="/" element={<Scoring/>}/>
-              <Route path="/:web2id/:condition" element={<Scoring/>}/>
+              <Route path="/scoring" element={<Scoring/>}>
+                <Route path=":redirectParam" element={<Scoring/>} />
+              </Route>
             </Routes>
             {/* <Routes>
               <Route path="/" element={<Box>Main</Box>}/>

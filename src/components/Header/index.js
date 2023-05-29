@@ -4,6 +4,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { useTheme } from '@mui/material/styles';
 import { useLocation, Link } from 'react-router-dom'
 import Connect from '../../shared/Connect';
+import CenticLogo from "../../assets/Logo-Centic_74x-82x.png"
 
 const Header = () => {
   const location = useLocation()
@@ -11,7 +12,7 @@ const Header = () => {
   
   return (
     <Box sx={{fontFamily: "Open Sans", height: "60px", backgroundColor: "black", display: "flex", alignItems: "center", justifyContent: "space-between", paddingLeft: "100px", paddingRight: "100px"}}> 
-      <img class="header-logo" src="./Logo-Centic_74x-82x.png"/>
+      <img class="header-logo" src={CenticLogo}/>
       {/* <Box sx={{display: "flex"}}>
         <Link to="/scoring" style={{ textDecoration: 'none'}}>
           <Typography 

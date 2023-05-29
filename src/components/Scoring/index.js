@@ -6,9 +6,8 @@ import { toDayTime } from '../../shared/utils/others'
 import { fetchData } from '../../shared/utils/database'
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import {generateProof} from '../../shared/utils/proof';
-import { exportAuthHash, exportProof } from '../../shared/utils/others'; 
 import { LoadingButton } from '@mui/lab';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { SERVER } from "../../shared/Constants/constants";
 import { mimc7 } from "circomlib";
 import QRCode from 'qrcode.react'
@@ -19,12 +18,15 @@ const BigInt = require("big-integer");
 const Scoring = (props) => {
   const {address, refresh, updateRefresh} = useContext(GlobalContext)
   const [pass, setPass] = useState("")
+  const [web2ID, setWeb2ID] = useState("")
+  const [condition, setCondition] = useState("")
+  const [thirdPartyId, setThirdPartyId] = useState("") 
   const [userInfo, setUserInfo] = useState({"credit_score": "?", "timestamp": "?"})
   const [loading, setLoading] = useState(false)
+  const [leafExisted, setLeafExisted] = useState(false)
   const [url, setUrl] = useState(null)
   const theme = useTheme()
-  const {web2id, condition} = useParams()
-
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const projectId = '2PyRVePShrDRMUhgHdpf6zW7NSw';
   const projectSecret = '69325cd9fa06b38d50d44dcfcb5e0e56';
@@ -45,12 +47,38 @@ const Scoring = (props) => {
     if (address) {
       fetchData({public_key: address}, SERVER + "centic/user/registerInfo/")
       .then(data => {
-        setUserInfo({
-          "credit_score": data.credit_score,
-          "timestamp": data.timestamp
-        })
+        if(data !== null) {
+          setUserInfo({
+            "credit_score": data.credit_score,
+            "timestamp": data.timestamp
+          })
+        } else {
+          let timestamp = Math.floor(new Date().getTime() / 1000)
+          let data = {
+              "name": "new",
+              "credit_score": 500,
+              "timestamp": timestamp,
+              "public_key": address
+          }
+          fetchData(data, SERVER + "centic/user/register")
+          .then(() => {
+            setUserInfo({
+              "credit_score": 500,
+              "timestamp": timestamp
+            })
+          })
+        }
       })
+      fetchData({public_key: address}, SERVER + "centic/user/checkUserLeaf/")
+        .then(data => {
+          if(data !== null) {
+            setLeafExisted(true)
+          }
+        })
     }
+    setWeb2ID(searchParams.get("web2ID"))
+    setCondition(searchParams.get("condition"))
+    setThirdPartyId(searchParams.get("thirdPartyID"))
   }, [address])
 
   const copyToClipboard = () => {
@@ -78,8 +106,9 @@ const Scoring = (props) => {
   }
 
   const handleProvideAuthHash = async () => {
-    let hash = mimc7.multiHash([BigInt(address.replace("0x", ""), 16).value, BigInt(web2id, 16).value, BigInt(pass, 10).value]).toString()
-    await fetchData({auth_hash: hash, public_key: address}, SERVER + "centic/user/provideAuthHash")
+    let hash = mimc7.multiHash([BigInt(address.replace("0x", ""), 16).value, BigInt(web2ID, 16).value, BigInt(pass, 10).value]).toString()
+    console.log(hash)
+    await fetchData({auth_hash: hash, public_key: address, bank_id: thirdPartyId}, SERVER + "centic/user/provideAuthHash")
       .then(data => {
           console.log(data)
       })
@@ -87,32 +116,39 @@ const Scoring = (props) => {
 
   const handleGenerateProof = async () => {
     setLoading(true)
-    await handleProvideAuthHash()
-    await sleep(10000);
-    let start = Date.now();
-    let currentTimestamp = Math.floor(new Date().getTime() / 1000)
-    let data = await fetchData({public_key: address.toLowerCase()}, SERVER + "centic/user/info")
-    const input = {
-      "mainPub": address,
-      "subPub": "0x" + web2id,
-      "userInfo": pass,
-      "authHash": data.auth_hash,
-      "creditScore": data.credit_score.toString(),
-      "timestamp": data.timestamp,
-      "root": data.root,
-      "verifyTimestamp": currentTimestamp.toString(),
-      "condition": condition,
-      "direction":data.direction,
-      "siblings": data.siblings
+    try {
+      if(leafExisted === false ) {
+        await handleProvideAuthHash()
+        await sleep(10000);
+      } 
+      let start = Date.now();
+      let currentTimestamp = Math.floor(new Date().getTime() / 1000)
+      let data = await fetchData({public_key: address.toLowerCase()}, SERVER + "centic/user/info")
+      const input = {
+        "mainPub": address,
+        "subPub": "0x" + web2ID,
+        "userInfo": pass,
+        "authHash": data.auth_hash,
+        "creditScore": data.credit_score.toString(),
+        "timestamp": data.timestamp,
+        "root": data.root,
+        "verifyTimestamp": currentTimestamp.toString(),
+        "condition": condition,
+        "direction":data.direction,
+        "siblings": data.siblings
+      }
+      let proof = await generateProof(input)
+      if(proof != -1) {
+        const jsonText = JSON.stringify(proof, null, "\t");
+        const added  = await client.add(jsonText)
+        setUrl("https://ipfs.io/ipfs/" + added.path)
+      }
+      let timeTaken = Date.now() - start;
+      console.log(timeTaken)
+    } catch(err) {
+      alert(err)
     }
-    let proof = await generateProof(input)
-    if(proof != -1) {
-      const jsonText = JSON.stringify(proof, null, "\t");
-      const added  = await client.add(jsonText)
-      setUrl("https://ipfs.io/ipfs/" + added.path)
-    }
-    let timeTaken = Date.now() - start;
-    console.log(timeTaken)
+    
     setLoading(false)
   }
 
@@ -174,12 +210,24 @@ const Scoring = (props) => {
                   >
                     Generate Credit Proof
                   </Typography>
+                    <TextField sx={{input: { paddingLeft: "20px", color: '#E2EDFF'}, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px"},'&:hover fieldset': {
+                    borderColor: theme.colors.color3, color: '#E2EDFF'
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#6F7E8C',
+                  }, } ,  width: "100%", marginTop: "25px", backgroundColor: theme.colors.color5, borderRadius: "10px"}} InputLabelProps={{style: {color: theme.colors.color6 },}} value={thirdPartyId} label="Third pary ID" variant="outlined" />
                         <TextField sx={{input: { paddingLeft: "20px", color: '#E2EDFF'}, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px"},'&:hover fieldset': {
                     borderColor: theme.colors.color3, color: '#E2EDFF'
                   },
                   '&.Mui-focused fieldset': {
                     borderColor: '#6F7E8C',
-                  }, } ,  width: "100%", marginTop: "25px", backgroundColor: theme.colors.color5, borderRadius: "10px"}} InputLabelProps={{style: {color: theme.colors.color6 },}} value={web2id} label="Web2 Id" variant="outlined" />
+                  }, } ,  width: "100%", marginTop: "25px", backgroundColor: theme.colors.color5, borderRadius: "10px"}} InputLabelProps={{style: {color: theme.colors.color6 },}} value={web2ID} label="Web2 ID" variant="outlined" />
+                    {/* {leafExisted === false && address ? <Typography
+                          variant="body2"
+                          sx={{ fontFamily: theme.typography.typography, fontSize: "14px", fontWeight: "600", color: theme.colors.color2, marginTop: "15px", marginBottom: "15px"}}
+                        >
+                          First time using
+                        </Typography> : ""} */}
                         <TextField sx={{input: { paddingLeft: "20px", color: '#E2EDFF' }, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px"}, '&:hover fieldset': {
                     borderColor: theme.colors.color3,
                   },
@@ -233,123 +281,13 @@ const Scoring = (props) => {
             </Grid>
           </Box>
           </Box> 
-          {/* <Box sx={{display: "flex", padding: "40px", justifyContent: "space-around", alignItems: "center"}}>
-            <Box>
-              <Box sx={{ display: "flex", alignItems: "center"}}>
-                <Typography
-                  variant="body2"
-                  sx={{ fontFamily: theme.typography, fontSize: "25px", fontWeight: "700"}}
-                >
-                  Your credit score: 
-                </Typography>
-                <Box sx={{marginLeft: "20px", borderRadius: "10px", width: "50px", height: "50px", display: "flex", backgroundColor: "#5185AA", justifyContent: "center", alignItems: "center", paddingX: "10px"}}>
-                  <Typography
-                    variant="body2"
-                    sx={{ 
-                      fontFamily: theme.typography, 
-                      fontSize: "25px", 
-                      fontWeight: "700", 
-                      color: theme.colors.light1}}
-                  >
-                    {userInfo.credit_score}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box sx={{padding: "20px", display: "flex", alignItems: "center"}}>
-                <Typography
-                  variant="body2"
-                  sx={{ fontFamily: theme.typography, fontSize: "20px", fontWeight: "700"}}
-                >
-                  Achieved at: 
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ fontFamily: theme.typography, fontSize: "20px", fontWeight: "700", color: "red", marginLeft: "10px"}}
-                >
-                  {userInfo.timestamp === "?" ? "?" : toDayTime(userInfo.timestamp)}
-                </Typography>
-              </Box>
-            </Box>
-            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-                  <Typography variant="body2"
-                    sx={{ fontFamily: theme.typography, fontSize: "20px", fontWeight: "700"}}
-                    mb={1}>
-                    Generate Credit Proof
-                  </Typography>
-                  <Box sx={{padding: "10px", display: "flex", justifyContent: "center", alignItems: "center", border: "5px solid #E2EDFF", marginBottom: "20px", marginTop: "10px"}}>
-                    <AccountTreeIcon  sx={{color: "#E2EDFF", fontSize: "120px"}}/>
-                  </Box>
-                    <Button
-                      sx={{
-                        backgroundColor: "#5185AA",
-                        color: theme.colors.light1,
-                        borderColor: theme.colors.light1,
-                        border: "3px solid black",
-                        borderRadius: "16px",
-                        textTransform: "none",
-                        height: "60px",
-                        width: "200px",
-                        fontWeight: "700",
-                        fontFamily: theme.typography,
-                        fontSize: "25px",
-                        "&:hover": {
-                          cursor: "pointer"
-                        }
-                      }}
-                      onClick={handleOpenGenDialog}
-                    >
-                      Choose
-                    </Button> 
-                    <GenDialog open={openGen} handleClose={() => setOpenGen(false)}/>
-              </Box> */}
-          {/* </Box> */}
       </Container> 
-      {/* // : 
-      // <Container> 
-      //   <Box mt={2}>
-      //     <Paper
-      //       sx={{
-      //         background: "#0D1921 0% 0% no-repeat padding-box",
-      //         borderRadius: "15px",
-      //         padding: "50px",
-      //       }}
-      //       elevation={1}
-      //     >
-      //       <Box sx={{display: "flex", justifyContent: "center", alignItems: "center"
-      //       // , backgroundColor: "black", height: "70px", width: "600px"
-      //       }}>
-      //         <LockPersonIcon  sx={{fontSize: "50px", color: "#E2EDFF", fontWeight: "800", marginRight: "30px"}} />
-      //         <Typography sx={{fontFamily: theme.typography, color: theme.colors.dark2, fontSize: "25px", fontWeight: "800"}}variant>Please connect to use our application!</Typography>
-      //       </Box>
-      //     </Paper>
-      //   </Box>
-      // </Container>} */}
-      <Box sx={{display: "flex", justifyContent: "flex-end", paddingTop: "20px"}}>
-        <Typography
-          variant="body2"
-          sx={{ fontFamily: theme.typography.typography, fontSize: "12px", fontWeight: "400", color: theme.colors.color7, marginRight: "20px"}}
-        >
-          Cookies Policy
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ fontFamily: theme.typography.typography, fontSize: "12px", fontWeight: "400", color: theme.colors.color7, marginRight: "20px"}}
-        >
-          Privacy Policy
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ fontFamily: theme.typography.typography, fontSize: "12px", fontWeight: "400", color: theme.colors.color7, marginRight: "20px"}}
-        >
-          Terms of Service
-        </Typography>
-      </Box>
       <Box sx={{display: "flex", justifyContent: "flex-end", paddingTop: "10px"}}>
         <Typography
             variant="body2"
-            sx={{ fontFamily: theme.typography.typography, fontSize: "10px", fontWeight: "400", color: theme.colors.color6, marginRight: "20px"}}
+            sx={{ fontFamily: theme.typography.typography, fontSize: "10px", fontWeight: "400", color: theme.colors.color6, marginRight: "20px", marginTop: "30px"}}
           >
-            Copyright © 2021 Datalink Foundation Pte. Ltd. All Rights Reserved
+            Copyright © 2023 Centic
         </Typography>
       </Box>
     </Box>

@@ -1,7 +1,14 @@
 const generateProof = async (input) => {
   try {
+      const witnessParsed = JSON.parse(
+        JSON.stringify(
+          input,
+          (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
+        )
+      );
+    console.log(witnessParsed)
     const { proof, publicSignals } = await window.snarkjs.groth16.fullProve(
-      input,
+      witnessParsed,
       "/main.wasm",
       "/main.zkey"
     );
