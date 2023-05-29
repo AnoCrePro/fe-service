@@ -1,4 +1,4 @@
-const SERVER = "http://localhost:8000/"
+const SERVER = "http://178.128.93.195:8000/"
 const CONTRACT_ADDRESS = "0xffb3bf586322e95745f2f072d6789776f84c98eb"
 
 module.exports = {
