@@ -1,4 +1,4 @@
-const toDayTime = (timestamp) => {
+export function toDayTime (timestamp) {
   let dateFormat = new Date(timestamp*1000)
   let hour = dateFormat.getHours() 
   if(hour < 10) {
@@ -24,39 +24,3 @@ const toDayTime = (timestamp) => {
   return hour+":"+minute+":"+second+" "+day+"/"+month+"/"+dateFormat.getFullYear()
 }
 
-const exportAuthHash = (data) => {
-  const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-    JSON.stringify(data, null, 2)
-  )}`;
-  const link = document.createElement("a");
-  link.href = jsonString;
-  link.download = "authentication_hash.json";
-
-  link.click();
-};
-
-const exportAuthData = (data) => {
-  const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-    JSON.stringify(data, null, 2)
-  )}`;
-  const link = document.createElement("a");
-  link.href = jsonString;
-  link.download = "authentication_data.json";
-
-  link.click();
-};
-
-const exportProof = (data) => {
-  const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-    JSON.stringify(data, null, 2)
-  )}`;
-  const link = document.createElement("a");
-  link.href = jsonString;
-  link.download = "proof.json";
-
-  link.click();
-};
-
-module.exports = {
-  toDayTime, exportAuthHash, exportAuthData, exportProof
-}

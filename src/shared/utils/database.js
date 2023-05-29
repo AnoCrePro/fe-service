@@ -1,4 +1,4 @@
-const fetchData = async(data, url) => {
+export async function fetchData (data, url){
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
@@ -8,8 +8,4 @@ const fetchData = async(data, url) => {
   let json_respon = await fetch(url, requestOptions)
   let res = await json_respon.json()
   return res
-}
-
-module.exports = {
-  fetchData
 }

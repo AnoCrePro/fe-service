@@ -1,4 +1,4 @@
-const generateProof = async (input) => {
+export async function generateProof (input) {
   try {
       const witnessParsed = JSON.parse(
         JSON.stringify(
@@ -58,7 +58,7 @@ const hexifyBigInts = (o) => {
   }
 }
 
-const toSolidityInput = (proof) => {
+export function toSolidityInput (proof) {
   const result = {
       a: [proof.pi_a[0], proof.pi_a[1]],
       b: [[proof.pi_b[0][1], proof.pi_b[0][0]], [proof.pi_b[1][1], proof.pi_b[1][0]]],
@@ -69,5 +69,3 @@ const toSolidityInput = (proof) => {
   }
   return hexifyBigInts(unstringifyBigInts(result));
 }
-
-module.exports = { generateProof, toSolidityInput }
