@@ -265,7 +265,7 @@ const Scoring = (props) => {
                     <Button sx={{ minWidth: 0, borderRadius: "5px", opacity: 1, height: "20px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "10px", fontWeight: "600", textTransform: "none", marginLeft: "5px"}}
                       onClick={copyToClipboard}
                     >
-                      <ContentCopyIcon sx={{fontSize: "15px"}}/> 
+                      {/* <ContentCopyIcon sx={{fontSize: "15px"}}/>  */}
                     </Button>
                   </Box>
                   <Link href={url} sx={{fontFamily: theme.typography.typography, fontSize: "12px", fontWeight: "400", color: theme.colors.color2, textDecoration: "none"}}>
