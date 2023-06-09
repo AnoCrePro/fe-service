@@ -90,12 +90,9 @@ const Scoring = (props) => {
     else {
       setUserInfo({"credit_score": "?", "timestamp": "?"})
     }
-    // setWeb2ID(searchParams.get("web2ID"))
-    // setCondition(searchParams.get("condition"))
-    // setThirdPartyId(searchParams.get("thirdPartyID"))
-    setWeb2ID("aa499199f9")
-    setCondition("300")
-    setThirdPartyId("trava")
+    setWeb2ID(searchParams.get("web2ID"))
+    setCondition(searchParams.get("condition"))
+    setThirdPartyId(searchParams.get("thirdPartyID"))
   }, [account.address])
 
   const copyToClipboard = () => {
