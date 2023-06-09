@@ -8,14 +8,25 @@ import {useTheme} from '@mui/material';
 import { SERVER } from '../Constants/constants';
 import { fetchData } from '../utils/database';
 import MetaMaskIcon from "../../assets/th.jpeg"
+import { Web3Button } from '@web3modal/react'
+import { useWeb3Modal } from '@web3modal/react'
+import { useAccount, useContract, useDisconnect } from 'wagmi'
+import CloseIcon from '@mui/icons-material/Close';
 
 const Connect = () => {
   const theme = useTheme()
   const {updateConnect, connect, updateAddress, address, updateWeb3, web3} = useContext(GlobalContext)
-  const [open, setOpen] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
   const [userInfo, setUserInfo] = useState({"credit_score": "?", "timestamp": "?"})
   const [openUserInfo, setOpenUserInfo] = useState(false)
-  
+  const { open, close } = useWeb3Modal()
+  const account = useAccount()
+  const { disconnect } = useDisconnect()
+
+  const handleConnectWallet = async () => {
+    open()
+  }
+
   useEffect(() => {
     if (window.ethereum) {
       const web3 = new Web3(window.ethereum);
@@ -27,6 +38,7 @@ const Connect = () => {
           updateConnect(false)
         } 
         if(connect) {
+          console.log(accounts[0])
           updateAddress(accounts[0]);
           fetchData({public_key: accounts[0]}, SERVER + "/user/registerInfo")
             .then(data => {
@@ -43,14 +55,14 @@ const Connect = () => {
     } else {
       console.log('MetaMask is not installed');
     }
-  }, [])
+  }, [connect])
 
   const handleClickConnect = () => {
-    setOpen(true)
+    setOpenModal(true)
   }
 
   const handleCloseDialog = () => {
-    setOpen(false)
+    setOpenModal(false)
   }
 
   const handleConnect = async () => {
@@ -60,7 +72,8 @@ const Connect = () => {
       const signature = await web3.eth.personal.sign("I am signing my one-time nonce: 939104\n\nNote: Sign to log into your Centic account. This is free and will not require a transaction.", account);
       const signingAddress = web3.eth.accounts.recover("I am signing my one-time nonce: 939104\n\nNote: Sign to log into your Centic account. This is free and will not require a transaction.", signature);
       if(signingAddress.toLowerCase() == account.toLowerCase()) {
-        updateAddress(account)
+        await updateAddress(account)
+        await updateConnect(true)
         fetchData({public_key: account}, SERVER + "centic/user/registerInfo")
         .then(data => {
           if(data !== null) {
@@ -71,7 +84,7 @@ const Connect = () => {
           }
         })
           // Update ETH Balance
-        updateConnect(true)
+        
       }
       else {
         console.log("Fail to sign!")
@@ -83,7 +96,7 @@ const Connect = () => {
   }
   return (
     <Box sx={{paddingTop: "5px"}}>
-      {connect ? <Box sx={{
+      {account.isConnected ? <Box sx={{
           backgroundColor: "black",
           color: theme.colors.light1,
           fontFamily: theme.typography,
@@ -106,8 +119,9 @@ const Connect = () => {
             color:"rgb(0, 159, 219)",
             fontFamily: theme.typography.fontFamily}}
           >
-              {address.slice(0, 6) + "..." + address.slice(36, 42)}
+              {account.address.slice(0, 6).toLowerCase() + "..." + account.address.slice(36, 42).toLowerCase()}
           </Typography>
+          <CloseIcon sx={{fontSize: "20px", color:"rgb(0, 159, 219)", marginRight: "10px"}} onClick={() => disconnect()}/>
         </Box>
       : 
       <Box>
@@ -115,12 +129,13 @@ const Connect = () => {
           sx={{
             width: "170px", backgroundColor: theme.colors.btn, borderRadius: "10px", opacity: 1, height: "35px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "14px", fontWeight: "600", textTransform: "none"
           }}
-          onClick={handleClickConnect}
+          // onClick={handleClickConnect}
+          onClick={handleConnectWallet}
         >
           Connect Wallet
         </Button>
         <Dialog
-          open={open}
+          open={openModal}
           onClose={handleCloseDialog}
           fullWidth
           PaperProps={{ 
@@ -154,6 +169,7 @@ const Connect = () => {
           </LoadingButton>
         </Dialog>  
       </Box>} 
+      {/* <Web3Button/> */}
     </Box>
    
   )

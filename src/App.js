@@ -4,7 +4,23 @@ import Header from "./components/Header";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { GlobalProvider } from "./context/GlobalState";
+import { SnackbarProvider} from 'notistack';
 import Scoring from "./components/Scoring";
+import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
+import { Web3Modal } from '@web3modal/react'
+import { configureChains, createConfig, WagmiConfig } from 'wagmi'
+import { arbitrum, mainnet, polygon } from 'wagmi/chains'
+
+const chains = [arbitrum, mainnet, polygon]
+const projectId = '8e72d5cc9c1d3d099e70d7bb0b89dc7b'
+
+const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors: w3mConnectors({ projectId, version: 1, chains }),
+  publicClient
+})
+const ethereumClient = new EthereumClient(wagmiConfig, chains)
 // import Proof from "./components/Proof";
 // import GenerateProof from "./components/GenerateProof";
 
@@ -37,28 +53,36 @@ function Main() {
 
 
   return (
-    <GlobalProvider>
-      <ThemeProvider theme={theme}>
-        <Box className="App" sx={{backgroundColor: theme.colors.dark2, minHeight: "100vh"}}>
-          <BrowserRouter>
-            <Header/>
-            <Routes>
-              <Route path="/" element={<Scoring/>}/>
-              <Route path="/scoring" element={<Scoring/>}>
-                <Route path=":redirectParam" element={<Scoring/>} />
-              </Route>
-            </Routes>
-            {/* <Routes>
-              <Route path="/" element={<Box>Main</Box>}/>
-              <Route path="/scoring" element={<Scoring/>}/>
-              <Route path="/proof" element={<Proof/>}/>
-              <Route path="/generate/web" element={<GenerateProof method="web"/>}/>
-              <Route path="/generate/extension" element={<GenerateProof method="extension"/>}/>
-            </Routes> */}
-          </BrowserRouter>
-        </Box>
-      </ThemeProvider>
-    </GlobalProvider>
+    <>
+      <WagmiConfig config={wagmiConfig}>
+        <GlobalProvider>
+          <SnackbarProvider>
+            <ThemeProvider theme={theme}>
+              <Box className="App" sx={{backgroundColor: theme.colors.dark2, minHeight: "100vh"}}>
+                <BrowserRouter>
+                  <Header/>
+                  <Routes>
+                    <Route path="/" element={<Scoring/>}/>
+                    <Route path="/scoring" element={<Scoring/>}>
+                      <Route path=":redirectParam" element={<Scoring/>} />
+                    </Route>
+                  </Routes>
+                  {/* <Routes>
+                    <Route path="/" element={<Box>Main</Box>}/>
+                    <Route path="/scoring" element={<Scoring/>}/>
+                    <Route path="/proof" element={<Proof/>}/>
+                    <Route path="/generate/web" element={<GenerateProof method="web"/>}/>
+                    <Route path="/generate/extension" element={<GenerateProof method="extension"/>}/>
+                  </Routes> */}
+                </BrowserRouter>
+              </Box>
+            </ThemeProvider>
+          </SnackbarProvider>
+        </GlobalProvider>
+      </WagmiConfig>
+      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+    </>
+    
     );
 }
 
