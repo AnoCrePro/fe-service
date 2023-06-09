@@ -9,7 +9,6 @@ body {
 
 .header-logo {
   height: 40px;
-  margin-top: 50px
 }
 
 .podium-icon {
@@ -20,4 +19,9 @@ body {
 .metamask {
   height: 80px;
   border-radius: 10px;
+}
+
+.scoring-podium{
+  height: 130px;
+  margin-top: 20px
 }

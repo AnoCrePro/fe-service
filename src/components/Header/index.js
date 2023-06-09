@@ -11,7 +11,7 @@ const Header = () => {
   const theme = useTheme()
   
   return (
-    <Box sx={{fontFamily: "Open Sans", height: "60px", backgroundColor: "black", display: "flex", flexDirection: {'xs': 'column', 'lg': 'row'}, alignItems: {'xs': "center", 'lg': 'space-between'}, justifyContent: {'xs': "center", 'lg': 'space-between'}, paddingLeft: "100px", paddingRight: "100px"}}> 
+    <Box sx={{fontFamily: "Open Sans", height: {"xs": "120px", "lg": "60px"}, backgroundColor: "black", display: "flex", flexDirection: {'xs': 'column', 'lg': 'row'}, alignItems: {'xs': "center", 'lg': 'space-between'}, justifyContent: {'xs': "center", 'lg': 'space-between'}, paddingLeft: "100px", paddingRight: "100px"}}> 
       <img class="header-logo" src={CenticLogo}/>
       {/* <Box sx={{display: "flex"}}>
         <Link to="/scoring" style={{ textDecoration: 'none'}}>

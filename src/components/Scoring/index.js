@@ -216,11 +216,12 @@ const Scoring = (props) => {
                   </Typography>
                   {/* <img class="podium-icon" src={PodiumIcon}/> */}
                 </Box>
+                <img class="scoring-podium" src="./Group 16682@2x.png"/>
                 
                 <Typography
                   variant="body2"
                   sx={{ fontFamily: theme.typography.typography, fontSize: "14px", fontWeight: "400", color: theme.colors.color2}}
-                  mt={20}
+                  mt={5}
                 >
                   {/* Last sync: 1:46pm 16/05/2023 */}
                   Last sync: {toDayTime(userInfo.timestamp)}
