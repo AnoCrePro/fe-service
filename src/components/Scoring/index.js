@@ -15,6 +15,7 @@ import QRCode from 'qrcode.react'
 import { create } from 'ipfs-http-client';
 import { enqueueSnackbar } from 'notistack';
 import { useAccount, useContract } from 'wagmi'
+import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 const BigInt = require("big-integer");
 
 const Scoring = (props) => {
@@ -175,117 +176,63 @@ const Scoring = (props) => {
   return (
     <Box
       mb={5}
-      sx={{paddingTop: "20px"}}
+      sx={{paddingTop: "20px", backgroundColor: "#FFFFF1", marginTop: "100px"}}
     >
       {/* { address ?  */}
       <Container> 
         { valid ? <Box mt={2} sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-          <Typography
-              variant="body2"
-              sx={{ fontFamily: theme.typography.typography, color: theme.colors.color1, fontSize: "34px", fontWeight: "600"}}
-              mb={6}
-            >
-              CREDIT SCORING
-          </Typography>
           <Box sx={{width: "100%"}}>
             <Grid container sx={{display: "flex", justifyContent: "center"}}>
               <Grid item xs={12} md={6} sx={{paddingBottom: {'xs': '20px', 'lg': 0}, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", backgroundImage: `url(${"../../assets/Fico3@2x.png "})`}}>
                 <Typography
                   variant="body2"
-                  sx={{ fontFamily: theme.typography.typography, fontSize: "16px", fontWeight: "600", color: theme.colors.color2}}
+                  sx={{ fontFamily: theme.typography.typography, fontSize: "16px", fontWeight: "600", color: "#004aad"}}
                   mb={0.5}
                 >
-                  Your credit score
+                  Số dư Bitcoin
                 </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ fontFamily: theme.typography.typography, fontSize: "12px", fontWeight: "400", color: theme.colors.color2}}
-                  mb={0.5}
-                >
-                  Top 7% score
-                </Typography>
-                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                <Box sx={{display: "flex", alignItems: "center"}}>
                   <Typography
                     variant="body2"
-                    sx={{ fontFamily: theme.typography.typography, fontSize: "44px", fontWeight: "700", color: theme.colors.color3}}
+                    sx={{ fontFamily: theme.typography.typography, fontSize: "80px", fontWeight: "700", color: "#004aad"}}
                   >
-                    {userInfo.credit_score}
+                    5.06
                   </Typography>
-                  {/* <img class="podium-icon" src={PodiumIcon}/> */}
+                  <CurrencyBitcoinIcon sx={{fontSize: "80px", color: "#FFC700"}}/>
                 </Box>
-                <img class="scoring-podium" src="./Group 16682@2x.png"/>
                 
                 <Typography
                   variant="body2"
-                  sx={{ fontFamily: theme.typography.typography, fontSize: "14px", fontWeight: "400", color: theme.colors.color2}}
+                  sx={{ fontFamily: theme.typography.typography, fontSize: "14px", fontWeight: "400", color: "#004aad"}}
                   mt={5}
                 >
                   {/* Last sync: 1:46pm 16/05/2023 */}
-                  Last sync: {toDayTime(userInfo.timestamp)}
+                  Cập nhật lần cuối: {toDayTime(userInfo.timestamp)}
                 </Typography>
               </Grid>
-              {url == null ? <Grid item xs={12} md={6}  sx={{backgroundColor: theme.colors.color4, padding: "40px"}}>
+              {url == null ? <Grid item xs={12} md={6}  sx={{backgroundColor: "#004aad", padding: "40px", borderRadius: "10px"}}>
                 <Typography
                     variant="body2"
-                    sx={{ fontFamily: theme.typography.typography, fontSize: "20px", fontWeight: "700", color: theme.colors.color2, boxShadow: "0px 2px 2px #0000004D", borderRadius: "16px", "opacity": 1}}
+                    sx={{ fontFamily: theme.typography.typography, fontSize: "20px", fontWeight: "700", color: "white"}}
                   >
-                    Generate Credit Proof
+                    Tạo bằng chứng tài sản
                   </Typography>
-                    <TextField sx={{input: { paddingLeft: "20px", color: '#E2EDFF'}, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px"},'&:hover fieldset': {
+                    <TextField sx={{input: { paddingLeft: "20px", color: 'black', fontWeight: 500}, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px", fontWeight: 500},'&:hover fieldset': {
+                    borderColor: theme.colors.color3, color: 'white'
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#6F7E8C',
+                  }, } ,  width: "100%", marginTop: "25px", backgroundColor: "white", borderRadius: "10px"}} InputLabelProps={{style: {color: "black"}}} value={thirdPartyId} label="Số tài khoản TD Bank" variant="outlined" />
+                        <TextField sx={{input: { paddingLeft: "20px", color: 'black'}, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px"},'&:hover fieldset': {
                     borderColor: theme.colors.color3, color: '#E2EDFF'
                   },
                   '&.Mui-focused fieldset': {
                     borderColor: '#6F7E8C',
-                  }, } ,  width: "100%", marginTop: "25px", backgroundColor: theme.colors.color5, borderRadius: "10px"}} InputLabelProps={{style: {color: theme.colors.color6 },}} value={thirdPartyId} label="Third pary ID" variant="outlined" />
-                        <TextField sx={{input: { paddingLeft: "20px", color: '#E2EDFF'}, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px"},'&:hover fieldset': {
-                    borderColor: theme.colors.color3, color: '#E2EDFF'
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#6F7E8C',
-                  }, } ,  width: "100%", marginTop: "25px", backgroundColor: theme.colors.color5, borderRadius: "10px"}} InputLabelProps={{style: {color: theme.colors.color6 },}} value={web2ID} label="Web2 ID" variant="outlined" />
-                    {/* {leafExisted === false && address ? <Typography
-                          variant="body2"
-                          sx={{ fontFamily: theme.typography.typography, fontSize: "14px", fontWeight: "600", color: theme.colors.color2, marginTop: "15px", marginBottom: "15px"}}
-                        >
-                          First time using
-                        </Typography> : ""} */}
-                      {leafExisted ? <TextField sx={{input: { paddingLeft: "20px", color: '#E2EDFF' }, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px"}, '&:hover fieldset': {
-                    borderColor: theme.colors.color3,
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#6F7E8C',
-                  },} ,  width: "100%", marginTop: "25px", backgroundColor: theme.colors.color5, borderRadius: "10px"}} InputLabelProps={{style: {color: theme.colors.color6 },}} value={pass} onChange={(e) => setPass(e.target.value)} label="Password" variant="outlined" />
-                :
-                        <Tooltip title={<Box sx={{display: "flex", flexDirection: "column", padding: "10px", width: "200px"}}>
-                          <Box sx={{display: "flex", alignItems: "center"}}>
-                            <WarningAmberIcon sx={{fontSize: "16px"}}/>
-                            <Typography variant="body2" sx={{ fontFamily: theme.typography.typography, fontSize: "16px", fontWeight: "600", color: "white"}}>
-                              WARNING!
-                            </Typography>
-                          </Box>
-                          <Typography variant="body2" sx={{ fontFamily: theme.typography.typography, fontSize: "12px", fontWeight: "400", color: "white"}}>
-                            Your password is permenant and cannot be changed later. Please save it!
-                          </Typography>
-                        </Box>} placement="left">
-                        
-                        <TextField sx={{input: { paddingLeft: "20px", color: '#E2EDFF' }, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px"}, '&:hover fieldset': {
-                    borderColor: theme.colors.color3,
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#6F7E8C',
-                  },} ,  width: "100%", marginTop: "25px", backgroundColor: theme.colors.color5, borderRadius: "10px"}} InputLabelProps={{style: {color: theme.colors.color6 },}} value={pass} onChange={(e) => setPass(e.target.value)} label="Password" variant="outlined" />
-                      </Tooltip>}
-                        
-                        <TextField sx={{input: { paddingLeft: "20px", color: '#E2EDFF' }, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px"}, '&:hover fieldset': {
-                    borderColor: theme.colors.color3,
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#6F7E8C',
-                  },} ,  width: "100%", marginTop: "25px", backgroundColor: theme.colors.color5, borderRadius: "10px"}} InputLabelProps={{style: { color: theme.colors.color6 },}} value={condition} label="Condition" variant="outlined" />
+                  }, } ,  width: "100%", marginTop: "25px", backgroundColor: "white", borderRadius: "10px"}} InputLabelProps={{style: {color: "black" },}} value={web2ID} label="Mật khẩu" variant="outlined" />
                   <LoadingButton sx={{width: "100%", backgroundColor: theme.colors.btn, borderRadius: "10px", opacity: 1, marginTop: "30px", height: "40px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "14px", fontWeight: "600", textTransform: "none"}}
                     onClick={handleGenerateProof}
                     loading={loading}>
-                    Generate
+                    Tạo bằng chứng
                   </LoadingButton>
               </Grid> 
               : <Grid item xs={12} lg={6} sx={{backgroundColor: theme.colors.color4, width: "100%", padding: "40px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
@@ -344,7 +291,7 @@ const Scoring = (props) => {
             variant="body2"
             sx={{ fontFamily: theme.typography.typography, fontSize: "10px", fontWeight: "400", color: theme.colors.color6, marginRight: "20px", marginTop: "30px"}}
           >
-            Copyright © 2023 Centic
+            Copyright © 2023 CryptoScan
         </Typography>
       </Box>
     </Box>

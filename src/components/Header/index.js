@@ -4,15 +4,14 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { useTheme } from '@mui/material/styles';
 import { useLocation, Link } from 'react-router-dom'
 import Connect from '../../shared/Connect';
-import CenticLogo from "../../assets/Logo-Centic_74x-82x.png"
 
 const Header = () => {
   const location = useLocation()
   const theme = useTheme()
   
   return (
-    <Box sx={{fontFamily: "Open Sans", height: {"xs": "120px", "lg": "60px"}, backgroundColor: "black", display: "flex", flexDirection: {'xs': 'column', 'lg': 'row'}, alignItems: {'xs': "center", 'lg': 'space-between'}, justifyContent: {'xs': "center", 'lg': 'space-between'}, paddingLeft: "100px", paddingRight: "100px"}}> 
-      <img class="header-logo" src={CenticLogo}/>
+    <Box sx={{fontFamily: "Open Sans", height: {"xs": "100px", "lg": "90px"}, backgroundColor: "#004aad", display: "flex", flexDirection: {'xs': 'column', 'lg': 'row'}, alignItems: {'xs': "center", 'lg': 'space-between'}, justifyContent: {'xs': "center", 'lg': 'space-between'}, paddingLeft: "100px", paddingRight: "100px", boxShadow: "0 3px 3px rgb(0 0 0 / 10%)"}}> 
+      <img class="header-logo" src="./CryptoScan.png"/>
       {/* <Box sx={{display: "flex"}}>
         <Link to="/scoring" style={{ textDecoration: 'none'}}>
           <Typography 

@@ -58,7 +58,7 @@ function Main() {
         <GlobalProvider>
           <SnackbarProvider>
             <ThemeProvider theme={theme}>
-              <Box className="App" sx={{backgroundColor: theme.colors.dark2, minHeight: "100vh"}}>
+              <Box className="App" sx={{minHeight: "100vh"}}>
                 <BrowserRouter>
                   <Header/>
                   <Routes>
