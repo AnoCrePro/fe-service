@@ -9,19 +9,17 @@ import { SERVER } from '../Constants/constants';
 import { fetchData } from '../utils/database';
 import MetaMaskIcon from "../../assets/th.jpeg"
 import { Web3Button } from '@web3modal/react'
+import WalletIcon from '@mui/icons-material/Wallet';
 import { useWeb3Modal } from '@web3modal/react'
-import { useAccount, useContract, useDisconnect } from 'wagmi'
 import CloseIcon from '@mui/icons-material/Close';
 
 const Connect = () => {
   const theme = useTheme()
   const {updateConnect, connect, updateAddress, address, updateWeb3, web3} = useContext(GlobalContext)
   const [openModal, setOpenModal] = useState(false)
-  const [userInfo, setUserInfo] = useState({"credit_score": "?", "timestamp": "?"})
+  const [userInfo, setUserInfo] = useState({"balance": "?", "timestamp": "?"})
   const [openUserInfo, setOpenUserInfo] = useState(false)
   const { open, close } = useWeb3Modal()
-  const account = useAccount()
-  const { disconnect } = useDisconnect()
 
   const handleConnectWallet = async () => {
     open()
@@ -45,11 +43,14 @@ const Connect = () => {
               console.log(data)
               if(data !== null) {
                 setUserInfo({
-                  "credit_score": data.credit_score,
+                  "balance": data.balance,
                   "timestamp": data.timestamp
                 })
               }
             })
+            .catch(err => {
+              console.log(err)
+            }) 
         }
       });
     } else {
@@ -69,18 +70,21 @@ const Connect = () => {
     if(web3 || window.ethereum) {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
       const account = accounts[0];
-      const signature = await web3.eth.personal.sign("I am signing my one-time nonce: 939104\n\nNote: Sign to log into your Centic account. This is free and will not require a transaction.", account);
-      const signingAddress = web3.eth.accounts.recover("I am signing my one-time nonce: 939104\n\nNote: Sign to log into your Centic account. This is free and will not require a transaction.", signature);
+      const signature = await web3.eth.personal.sign("I am signing my one-time nonce: 939104\n\nNote: Sign to log into your CryptoScan account. This is free and will not require a transaction.", account);
+      const signingAddress = web3.eth.accounts.recover("I am signing my one-time nonce: 939104\n\nNote: Sign to log into your CryptoScan account. This is free and will not require a transaction.", signature);
       if(signingAddress.toLowerCase() == account.toLowerCase()) {
         await updateAddress(account)
         await updateConnect(true)
+        console.log(account)
         fetchData({public_key: account}, SERVER + "centic/user/registerInfo")
         .then(data => {
           if(data !== null) {
             setUserInfo({
-              "credit_score": data.credit_score,
+              "balance": data.balance,
               "timestamp": data.timestamp
             })
+          } else {
+            console.log("Hehe")
           }
         })
           // Update ETH Balance
@@ -96,9 +100,9 @@ const Connect = () => {
   }
   return (
     <Box sx={{paddingTop: "5px"}}>
-      {account.isConnected ? <Box sx={{
-          backgroundColor: "black",
-          color: theme.colors.light1,
+      {address ? <Box sx={{
+          backgroundColor: "white",
+          color: "#004aad",
           fontFamily: theme.typography,
           borderTop: "0 px solid #1E90FF",
           borderRadius: "10px",
@@ -111,28 +115,28 @@ const Connect = () => {
           border: "1px solid rgba(0, 159, 219, 0.5)",
           alignItems: "center",
         }}> 
-          <AccountBalanceWalletIcon sx={{fontSize: "20px", color:"rgb(0, 159, 219)", marginRight: "10px"}}/>
+          <AccountBalanceWalletIcon sx={{color: "#004aad", fontSize: "20px", marginRight: "10px"}}/>
           <Typography sx={{
             fontSize: "0.875rem",
             fontWeight: "600",
             marginRight: "10px",
-            color:"rgb(0, 159, 219)",
+            color:"#004aad",
             fontFamily: theme.typography.fontFamily}}
           >
-              {account.address.slice(0, 6).toLowerCase() + "..." + account.address.slice(36, 42).toLowerCase()}
+              {address.slice(0, 6).toLowerCase() + "..." + address.slice(36, 42).toLowerCase()}
           </Typography>
-          <CloseIcon sx={{fontSize: "20px", color:"rgb(0, 159, 219)", marginRight: "10px"}} onClick={() => disconnect()}/>
+          <CloseIcon sx={{fontSize: "20px", color:"#004aad", marginRight: "10px"}}/>
         </Box>
       : 
       <Box>
         <Button
           sx={{
-            width: "170px", backgroundColor: theme.colors.btn, borderRadius: "10px", opacity: 1, height: "35px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "14px", fontWeight: "600", textTransform: "none"
+            width: "170px", backgroundColor: "white", borderRadius: "10px", opacity: 1, height: "35px", color: "#004aad", fontFamily: theme.typography.fontFamily, fontSize: "17px", fontWeight: "700", textTransform: "none"
           }}
           // onClick={handleClickConnect}
-          onClick={handleConnectWallet}
+          onClick={handleConnect}
         >
-          Connect Wallet
+         <WalletIcon sx={{color: "#004aad", fontSize: "23px", marginRight: "5px"}}/> Kết nối ví
         </Button>
         <Dialog
           open={openModal}

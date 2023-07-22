@@ -6,21 +6,21 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { GlobalProvider } from "./context/GlobalState";
 import { SnackbarProvider} from 'notistack';
 import Scoring from "./components/Scoring";
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
-import { Web3Modal } from '@web3modal/react'
-import { configureChains, createConfig, WagmiConfig } from 'wagmi'
-import { arbitrum, mainnet, polygon } from 'wagmi/chains'
+// import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
+// import { Web3Modal } from '@web3modal/react'
+// import { configureChains, createConfig, WagmiConfig } from 'wagmi'
+// import { arbitrum, mainnet, polygon } from 'wagmi/chains'
 
-const chains = [arbitrum, mainnet, polygon]
-const projectId = '8e72d5cc9c1d3d099e70d7bb0b89dc7b'
+// const chains = [arbitrum, mainnet, polygon]
+// const projectId = '8e72d5cc9c1d3d099e70d7bb0b89dc7b'
 
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors: w3mConnectors({ projectId, version: 1, chains }),
-  publicClient
-})
-const ethereumClient = new EthereumClient(wagmiConfig, chains)
+// const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+// const wagmiConfig = createConfig({
+//   autoConnect: true,
+//   connectors: w3mConnectors({ projectId, version: 1, chains }),
+//   publicClient
+// })
+// const ethereumClient = new EthereumClient(wagmiConfig, chains)
 // import Proof from "./components/Proof";
 // import GenerateProof from "./components/GenerateProof";
 
@@ -46,15 +46,9 @@ const theme = createTheme({
 
 function Main() {
 
-  const [curNav, setCurNav] = useState("DEPOSIT");
-  const handleChangeNav = (nav) => {
-    setCurNav(nav);
-  };
-
-
   return (
     <>
-      <WagmiConfig config={wagmiConfig}>
+      {/* <WagmiConfig config={wagmiConfig}> */}
         <GlobalProvider>
           <SnackbarProvider>
             <ThemeProvider theme={theme}>
@@ -79,8 +73,8 @@ function Main() {
             </ThemeProvider>
           </SnackbarProvider>
         </GlobalProvider>
-      </WagmiConfig>
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+      {/* </WagmiConfig> */}
+      {/* <Web3Modal projectId={projectId} ethereumClient={ethereumClient} /> */}
     </>
     
     );
