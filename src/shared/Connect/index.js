@@ -70,13 +70,13 @@ const Connect = () => {
     if(web3 || window.ethereum) {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
       const account = accounts[0];
-      const signature = await web3.eth.personal.sign("I am signing my one-time nonce: 939104\n\nNote: Sign to log into your CryptoScan account. This is free and will not require a transaction.", account);
-      const signingAddress = web3.eth.accounts.recover("I am signing my one-time nonce: 939104\n\nNote: Sign to log into your CryptoScan account. This is free and will not require a transaction.", signature);
+      const signature = await web3.eth.personal.sign("Ký để đăng nhập vào tài khoản CryptoScan của bạn. \n\nLưu ý: Đăng nhập là hoàn toàn miễn phí và không phát sinh giao dịch!", account);
+      const signingAddress = web3.eth.accounts.recover("Ký để đăng nhập vào tài khoản CryptoScan của bạn. \n\nLưu ý: Đăng nhập là hoàn toàn miễn phí và không phát sinh giao dịch!", signature);
       if(signingAddress.toLowerCase() == account.toLowerCase()) {
         await updateAddress(account)
         await updateConnect(true)
         console.log(account)
-        fetchData({public_key: account}, SERVER + "centic/user/registerInfo")
+        fetchData({public_key: account}, SERVER + "cryptoscan/user/registerInfo")
         .then(data => {
           if(data !== null) {
             setUserInfo({
@@ -156,7 +156,7 @@ const Connect = () => {
               sx={{ fontFamily: theme.typography.typography, fontSize: "16px", fontWeight: "600", color: theme.colors.color2, marginTop: "20px"}}
               mb={0.5}
               >
-              Welcome to Centic!
+              Welcome to CryptoScan!
             </Typography>
             <Typography
               variant="body2"
@@ -164,7 +164,7 @@ const Connect = () => {
               sx={{ fontFamily: theme.typography.typography, fontSize: "14px", fontWeight: "400", color: theme.colors.color2, marginTop: "20px"}}
               mb={0.5}
             >
-              Sign to log into your Centic account. This is free and will not require a transaction.
+              Sign to log into your CryptoScan account. This is free and will not require a transaction.
             </Typography>
           </DialogTitle>
           <LoadingButton sx={{width: "80%", margin: "0 auto", backgroundColor: theme.colors.btn, borderRadius: "10px", opacity: 1, marginTop: "10px", marginBottom: "30px", height: "40px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "14px", fontWeight: "600", textTransform: "none"}}

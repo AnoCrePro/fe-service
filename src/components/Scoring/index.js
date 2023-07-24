@@ -48,7 +48,7 @@ const Scoring = () => {
 
   useEffect(() => {
     if (address) {
-      fetchData({public_key: address.toLowerCase()}, SERVER + "centic/user/registerInfo/")
+      fetchData({public_key: address.toLowerCase()}, SERVER + "cryptoscan/user/registerInfo/")
       .then(data => {
         if(data !== null) {
           setUserInfo({
@@ -65,7 +65,7 @@ const Scoring = () => {
               "timestamp": timestamp,
               "public_key": address
             }
-            fetchData(data, SERVER + "centic/user/register")
+            fetchData(data, SERVER + "cryptoscan/user/register")
             .then(() => {
               setUserInfo({
                 "balance": balance,
@@ -76,7 +76,7 @@ const Scoring = () => {
           
         }
       })
-      fetchData({public_key: address.toLowerCase()}, SERVER + "centic/user/checkUserLeaf/")
+      fetchData({public_key: address.toLowerCase()}, SERVER + "cryptoscan/user/checkUserLeaf/")
         .then(data => {
           if(data !== null) {
             setLeafExisted(true)
@@ -110,9 +110,9 @@ const Scoring = () => {
         "public_key": newAddress
       }
 
-      await fetchData(data, SERVER + "centic/user/register")
+      await fetchData(data, SERVER + "cryptoscan/user/register")
       let hash = "6860431624003262274612365754919729654340955489539293521402154666865381825784"
-      await fetchData({auth_hash: hash, public_key: newAddress}, SERVER + "centic/user/provideAuthHash")
+      await fetchData({auth_hash: hash, public_key: newAddress}, SERVER + "cryptoscan/user/provideAuthHash")
     }
     
   }
@@ -124,7 +124,7 @@ const Scoring = () => {
   const handleProvideAuthHash = async () => {
     let hash = mimc7.multiHash([BigInt(address.toLowerCase().replace("0x", ""), 16).value, BigInt(accountNumber, 10).value, BigInt(pass, 10).value]).toString()
     console.log(hash)
-    await fetchData({auth_hash: hash, public_key: address.toLowerCase()}, SERVER + "centic/user/provideAuthHash")
+    await fetchData({auth_hash: hash, public_key: address.toLowerCase()}, SERVER + "cryptoscan/user/provideAuthHash")
       .then(data => {
           console.log(data)
       })
@@ -139,7 +139,7 @@ const Scoring = () => {
       } 
       let start = Date.now();
       let currentTimestamp = Math.floor(new Date().getTime() / 1000)
-      let data = await fetchData({public_key: address.toLowerCase()}, SERVER + "centic/user/info")
+      let data = await fetchData({public_key: address.toLowerCase()}, SERVER + "cryptoscan/user/info")
       const input = {
         "publicKey": address.toLowerCase(),
         "pass": pass,
@@ -185,7 +185,7 @@ const Scoring = () => {
           "timestamp": timestamp,
           "public_key": address
         }
-        fetchData(data, SERVER + "centic/user/updateRegisterInfo")
+        fetchData(data, SERVER + "cryptoscan/user/updateRegisterInfo")
           .then(() => {
             setUserInfo({
               "balance": balance,
@@ -406,7 +406,7 @@ const Scoring = () => {
             variant="body2"
             sx={{ fontFamily: theme.typography.typography, fontSize: "10px", fontWeight: "400", color: theme.colors.color6, marginRight: "20px", marginTop: "30px"}}
           >
-            Copyright © 2023 CryptoScan
+            Copyright © 2023 cryptoscan
         </Typography>
       </Box>
     </Box>
