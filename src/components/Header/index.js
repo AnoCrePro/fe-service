@@ -10,7 +10,7 @@ const Header = () => {
   const theme = useTheme()
   
   return (
-    <Box sx={{fontFamily: "Open Sans", height: {"xs": "100px", "lg": "90px"}, backgroundColor: "#004aad", display: "flex", flexDirection: {'xs': 'column', 'lg': 'row'}, alignItems: {'xs': "center", 'lg': 'space-between'}, justifyContent: {'xs': "center", 'lg': 'space-between'}, paddingLeft: "100px", paddingRight: "100px", boxShadow: "0 3px 3px rgb(0 0 0 / 10%)"}}> 
+    <Box sx={{fontFamily: "Open Sans", height: {"xs": "100px", "lg": "120px"}, backgroundColor: "#004aad", display: "flex", flexDirection: {'xs': 'column', 'lg': 'row'}, alignItems: {'xs': "center", 'lg': 'space-between'}, justifyContent: {'xs': "center", 'lg': 'space-between'}, paddingLeft: "100px", paddingRight: "100px", boxShadow: "0 3px 3px rgb(0 0 0 / 10%)"}}> 
       <img class="header-logo" src="./CryptoScan.png"/>
       {/* <Box sx={{display: "flex"}}>
         <Link to="/scoring" style={{ textDecoration: 'none'}}>

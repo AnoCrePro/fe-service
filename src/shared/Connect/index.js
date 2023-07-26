@@ -107,17 +107,17 @@ const Connect = () => {
           borderTop: "0 px solid #1E90FF",
           borderRadius: "10px",
           textTransform: "none",
-          width: "200px",
-          height: "40px",
+          width: "320px",
+          height: "50px",
           display: "flex",
           lineHeight: "1.28571",
           justifyContent: "center",
           border: "1px solid rgba(0, 159, 219, 0.5)",
           alignItems: "center",
         }}> 
-          <AccountBalanceWalletIcon sx={{color: "#004aad", fontSize: "20px", marginRight: "10px"}}/>
+          <AccountBalanceWalletIcon sx={{color: "#004aad", fontSize: "30px", marginRight: "10px"}}/>
           <Typography sx={{
-            fontSize: "0.875rem",
+            fontSize: "25px",
             fontWeight: "600",
             marginRight: "10px",
             color:"#004aad",
@@ -125,18 +125,18 @@ const Connect = () => {
           >
               {address.slice(0, 6).toLowerCase() + "..." + address.slice(36, 42).toLowerCase()}
           </Typography>
-          <CloseIcon sx={{fontSize: "20px", color:"#004aad", marginRight: "10px"}}/>
+          <CloseIcon sx={{fontSize: "30px", color:"#004aad", marginRight: "10px"}}/>
         </Box>
       : 
       <Box>
         <Button
           sx={{
-            width: "170px", backgroundColor: "white", borderRadius: "10px", opacity: 1, height: "35px", color: "#004aad", fontFamily: theme.typography.fontFamily, fontSize: "17px", fontWeight: "700", textTransform: "none"
+            width: "200px", backgroundColor: "white", borderRadius: "10px", opacity: 1, height: "40px", color: "#004aad", fontFamily: theme.typography.fontFamily, fontSize: "25px", fontWeight: "700", textTransform: "none"
           }}
           // onClick={handleClickConnect}
           onClick={handleConnect}
         >
-         <WalletIcon sx={{color: "#004aad", fontSize: "23px", marginRight: "5px"}}/> Kết nối ví
+         <WalletIcon sx={{color: "#004aad", fontSize: "30px", marginRight: "10px"}}/> Kết nối ví
         </Button>
         <Dialog
           open={openModal}

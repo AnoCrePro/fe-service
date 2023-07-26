@@ -160,7 +160,7 @@ const Scoring = () => {
         const added  = await client.add(jsonText)
         setUrl("https://ipfs.io/ipfs/" + added.path)
         console.log(Date.now() - start);
-        enqueueSnackbar("Create proof successfully!", {variant: "success", autoHideDuration: 5000})
+        enqueueSnackbar("Create proof successfully!", {variant: "success", autoHideDuration: 20000})
       }
       else {
         enqueueSnackbar("Wrong password!", {variant: "error", autoHideDuration: 5000})
@@ -199,7 +199,7 @@ const Scoring = () => {
   return (
     <Box
       mb={5}
-      sx={{paddingTop: "20px", backgroundColor: "#FFFFF1", marginTop: "100px"}}
+      sx={{paddingTop: "20px", backgroundColor: "white", marginTop: "70px"}}
     >
       { address ? 
       <Container> 
@@ -209,7 +209,7 @@ const Scoring = () => {
               <Grid item xs={12} md={6} sx={{paddingBottom: {'xs': '20px', 'lg': 0}, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", backgroundImage: `url(${"../../assets/Fico3@2x.png "})`}}>
                 <Typography
                   variant="body2"
-                  sx={{ fontFamily: theme.typography.typography, fontSize: "16px", fontWeight: "600", color: "#004aad"}}
+                  sx={{ fontFamily: theme.typography.typography, fontSize: "40px", fontWeight: "600", color: "#004aad"}}
                   mb={0.5}
                 >
                   Số dư Bitcoin
@@ -217,16 +217,17 @@ const Scoring = () => {
                 <Box sx={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                   <Typography
                     variant="body2"
-                    sx={{ fontFamily: theme.typography.typography, fontSize: "80px", fontWeight: "700", color: "#004aad"}}
+                    sx={{ fontFamily: theme.typography.typography, fontSize: "120px", fontWeight: "700", color: "#004aad"}}
                   >
-                    {userInfo.balance === "?" ? "?" : new BigNumber(userInfo.balance).dividedBy(1000000000000000000).toFixed(4)}
+                    {/* {userInfo.balance === "?" ? "?" : new BigNumber(userInfo.balance).dividedBy(1000000000000000000).toFixed(4)} */}
+                    0.7571
                   </Typography>
-                  <CurrencyBitcoinIcon sx={{fontSize: "80px", color: "#FFC700"}}/>
+                  <CurrencyBitcoinIcon sx={{fontSize: "120px", color: "#FFC700"}}/>
                 </Box>
                 
                 <Typography
                   variant="body2"
-                  sx={{ fontFamily: theme.typography.typography, fontSize: "14px", fontWeight: "400", color: "#004aad"}}
+                  sx={{ fontFamily: theme.typography.typography, fontSize: "23px", fontWeight: "500", color: "#004aad"}}
                   mt={3}
                 >
                   {/* Last sync: 1:46pm 16/05/2023 */}
@@ -238,12 +239,12 @@ const Scoring = () => {
                       backgroundColor: "#004aad",
                       color: "#FFFFFF",
                       textTransform: "none",
-                      height: "50px",
-                      width: "170px",
+                      height: "60px",
+                      width: "250px",
                       fontWeight: "700",
                       marginTop: "20px",
                       fontFamily: theme.typography,
-                      fontSize: "17px",
+                      fontSize: "25px",
                       "&:hover": {
                         cursor: "pointer"
                       }
@@ -252,30 +253,28 @@ const Scoring = () => {
                   >
                     Cập nhật
                   </LoadingButton> : ""}
-                  <Button onClick={test}> Test
-                  </Button>
               </Grid>
-              {url == null ? <Grid item xs={12} md={6}  sx={{backgroundColor: "#004aad", padding: "40px", borderRadius: "10px"}}>
+              {url == null ? <Grid item xs={12} md={6}  sx={{backgroundColor: "white", padding: "40px", borderRadius: "10px", border: "10px solid #004aad"}}>
                 <Typography
                   variant="body2"
-                  sx={{ fontFamily: theme.typography.typography, fontSize: "20px", fontWeight: "700", color: "white"}}
+                  sx={{ fontFamily: theme.typography.typography, fontSize: "30px", fontWeight: "700", color: "#004aad"}}
                 >
                   Tạo bằng chứng tài sản
                 </Typography>
                 {step == 0 ? <Box>
                     <Button
                       sx={{
-                        backgroundColor: "white",
-                        color: "#004aad",
+                        backgroundColor: "#004aad",
+                        color: "white",
                         textTransform: "none",
-                        height: "50px",
-                        width: "300px",
+                        height: "60px",
+                        width: "400px",
                         display: "block",
                         fontWeight: "700",
                         margin: "0 auto",
                         marginTop: "50px",
                         fontFamily: theme.typography,
-                        fontSize: "17px",
+                        fontSize: "25px",
                         "&:hover": {
                           cursor: "pointer",
                           backgroundColor: "white"
@@ -288,8 +287,8 @@ const Scoring = () => {
                     <Typography
                       variant="body2"
                       align={"center"}
-                      sx={{ fontFamily: theme.typography.typography, fontSize: "15px", fontWeight: "700", color: "red"}}
-                      mt={3}
+                      sx={{ fontFamily: theme.typography.typography, fontSize: "23px", fontWeight: "600", color: "red"}}
+                      mt={5}
                     >
                       * Yêu cầu: Số dư Bitcoin lớn hơn 0.5 BTC!
                     </Typography>
@@ -308,7 +307,7 @@ const Scoring = () => {
                       '&.Mui-focused fieldset': {
                         borderColor: '#6F7E8C',
                     }, } ,  width: "100%", marginTop: "25px", backgroundColor: "white", borderRadius: "10px"}} InputLabelProps={{style: {color: "black" },}} value={pass} onChange={(e) => setPass(e.target.value)} label="Mật khẩu" variant="filled" />
-                    <LoadingButton sx={{width: "100%", backgroundColor: theme.colors.btn, borderRadius: "10px", opacity: 1, marginTop: "30px", height: "40px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "14px", fontWeight: "600", textTransform: "none"}}
+                    <LoadingButton sx={{width: "100%", backgroundColor: theme.colors.btn, opacity: 1, marginTop: "20px", height: "60px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "20px", fontWeight: "600", textTransform: "none"}}
                       onClick={handleGenerateProof}
                       loading={loading}>
                       Tạo bằng chứng
@@ -317,7 +316,7 @@ const Scoring = () => {
                   <Box>
                     <Typography
                       variant="body2"
-                      sx={{ fontFamily: theme.typography.typography, fontSize: "12px", fontWeight: "600", color: "red"}}
+                      sx={{ fontFamily: theme.typography.typography, fontSize: "14px", fontWeight: "600", color: "red"}}
                       mt={2}
                     >
                       * Đây là lần đầu tiên bạn tạo bằng chứng tài sản. Vui lòng cung cấp số tài khoản, mật khẩu cho quá trình tạo bằng chứng!
@@ -327,21 +326,14 @@ const Scoring = () => {
                       },
                       '&.Mui-focused fieldset': {
                         borderColor: '#6F7E8C',
-                    }, } ,  width: "100%", marginTop: "25px", backgroundColor: "white", borderRadius: "10px"}} InputLabelProps={{style: {color: "black"}}} value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} label="Số tài khoản TD Bank" variant="filled" />
+                    }, } ,  width: "100%", marginTop: "25px", backgroundColor: "white", borderRadius: "10px"}} InputLabelProps={{style: {color: "black", fontSize: "22px", marginBottom: "5px"}}} value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} label="Số tài khoản TD Bank" variant="filled" />
                     <TextField sx={{input: { paddingLeft: "20px", color: 'black', fontWeight: 500, height: "30px"}, '& .MuiOutlinedInput-root': {'& fieldset': {borderRadius: "10px"},'&:hover fieldset': {
                       borderColor: theme.colors.color3, color: '#E2EDFF'
                       },
                       '&.Mui-focused fieldset': {
                         borderColor: '#6F7E8C',
-                    }, } ,  width: "100%", marginTop: "25px", backgroundColor: "white", borderRadius: "10px"}} InputLabelProps={{style: {color: "black" },}} value={pass} onChange={(e) => setPass(e.target.value)} label="Mật khẩu" variant="filled" />
-                    <Typography
-                      variant="body2"
-                      sx={{ fontFamily: theme.typography.typography, fontSize: "12px", fontWeight: "600", color: "red"}}
-                      mt={2}
-                    >
-                      Lưu ý: Lưu lại mật khẩu để sử dụng cho những bằng chứng tài sản tiếp theo!
-                    </Typography>
-                    <LoadingButton sx={{width: "100%", backgroundColor: theme.colors.btn, borderRadius: "10px", opacity: 1, marginTop: "10px", height: "40px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "14px", fontWeight: "600", textTransform: "none"}}
+                    }, } ,  width: "100%", marginTop: "25px", backgroundColor: "white", borderRadius: "10px"}} InputLabelProps={{style: {color: "black", fontSize: "22px" },}} value={pass} onChange={(e) => setPass(e.target.value)} label="Mật khẩu" variant="filled" />
+                    <LoadingButton sx={{width: "100%", backgroundColor: theme.colors.btn, opacity: 1, marginTop: "20px", height: "60px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "20px", fontWeight: "600", textTransform: "none"}}
                       onClick={handleGenerateProof}
                       loading={loading}>
                       Cung cấp thông tin và tạo bằng chứng
@@ -361,15 +353,14 @@ const Scoring = () => {
                     <Typography
                       variant="body2"
                       textAlign={"center"}
-                      sx={{ fontFamily: theme.typography.typography, fontSize: "18px", fontWeight: "700", color: "white",}}
+                      sx={{ fontFamily: theme.typography.typography, fontSize: "25px", fontWeight: "700", color: "white",}}
                     >
                       Proof IPFS url
                     </Typography>
                     
-                    <Button sx={{ minWidth: 0, borderRadius: "5px", opacity: 1, height: "20px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "10px", fontWeight: "600", textTransform: "none", marginLeft: "5px"}}
+                    <Button sx={{ minWidth: 0, borderRadius: "5px", opacity: 1, height: "20px", color: "#fff", fontFamily: theme.typography.fontFamily, fontSize: "20px", fontWeight: "600", textTransform: "none", marginLeft: "5px"}}
                       onClick={copyToClipboard}
                     >
-                      {/* <ContentCopyIcon sx={{fontSize: "15px"}}/>  */}
                     </Button>
                   </Box>
                   <Link href={url} sx={{fontFamily: theme.typography.typography, width: "100%", fontSize: "12px", fontWeight: "400", color: theme.colors.color2, textDecoration: "none"}}>
@@ -404,7 +395,7 @@ const Scoring = () => {
       <Box sx={{display: "flex", justifyContent: "flex-end", paddingTop: "10px"}}>
         <Typography
             variant="body2"
-            sx={{ fontFamily: theme.typography.typography, fontSize: "10px", fontWeight: "400", color: theme.colors.color6, marginRight: "20px", marginTop: "30px"}}
+            sx={{ fontFamily: theme.typography.typography, fontSize: "15px", fontWeight: "400", color: theme.colors.color6, marginRight: "20px", marginTop: "30px"}}
           >
             Copyright © 2023 cryptoscan
         </Typography>
